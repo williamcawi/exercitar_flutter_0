@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget with Validators {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Error message:'),
+              title: Text('Mensagem de erro:'),
               content: Text(state.message),
               actions: [
                 ElevatedButton(onPressed: context.pop, child: Text('ok'))
@@ -35,7 +35,7 @@ class LoginPage extends StatelessWidget with Validators {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Login'),
+          title: Text('Entrar'),
         ),
         body: Center(
           child: BlocBuilder<LoginBloc, LoginState>(
@@ -46,30 +46,40 @@ class LoginPage extends StatelessWidget with Validators {
 
               return Form(
                 key: formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      validator: validatorEmail,
-                      decoration:
-                          InputDecoration(labelText: 'username or email'),
-                      controller: usernameOrEmailController,
-                    ),
-                    TextFormField(
-                      obscureText: true,
-                      validator: validatorPassword,
-                      decoration: InputDecoration(labelText: 'password'),
-                      controller: passwordController,
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          if (formKey.currentState?.validate() ?? false) {
-                            context.read<LoginBloc>().add(LoginUserEvent(
-                                usernameOrEmail: usernameOrEmailController.text,
-                                password: passwordController.text));
-                          }
-                        },
-                        child: Text('login'))
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    spacing: 20,
+                    children: [
+                      TextFormField(
+                        validator: validatorUsernameOrEmail,
+                        decoration: InputDecoration(
+                            labelText: 'Nome de usuário ou email'),
+                        controller: usernameOrEmailController,
+                      ),
+                      TextFormField(
+                        obscureText: true,
+                        validator: validatorPassword,
+                        decoration: InputDecoration(labelText: 'Senha'),
+                        controller: passwordController,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            if (formKey.currentState?.validate() ?? false) {
+                              context.read<LoginBloc>().add(LoginUserEvent(
+                                  usernameOrEmail:
+                                      usernameOrEmailController.text,
+                                  password: passwordController.text));
+                            }
+                          },
+                          child: Text('entrar')),
+                      ElevatedButton(
+                          onPressed: () {
+                            context.push('/SignUpPage');
+                          },
+                          child: Text('cadastrar'))
+                    ],
+                  ),
                 ),
               );
             },

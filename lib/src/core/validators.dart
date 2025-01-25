@@ -4,16 +4,39 @@ import 'package:string_validator/string_validator.dart';
 mixin Validators {
   final formKey = GlobalKey<FormState>();
 
-  String? validatorEmail(String? value) {
+  String? validatorUsernameOrEmail(String? value) {
     if (!isLength(value ?? '', 3)) {
-      return 'fill in the field with more than 2 letters';
+      return 'o campo de username ou email deve ter pelo menos 3 dígitos';
     }
     return null;
   }
 
   String? validatorPassword(String? value) {
     if (!isLength(value ?? '', 6)) {
-      return 'fill in the field with more than 6 letters';
+      return 'a senha deve ter pelo menos 6 dígitos';
+    }
+    return null;
+  }
+
+  String? validatorUsername(String? value) {
+    if (!isLength(value ?? '', 3)) {
+      return 'o nome de usuário deve ter pelo menos 3 dígitos';
+    }
+    return null;
+  }
+
+  String? validatorEmail(String? value) {
+    if (!isEmail(value ?? '')) {
+      return 'preencha o campo com um email valido';
+    }
+    return null;
+  }
+
+  String? validatorConfirmPassword(String? value, String password) {
+    if (!isLength(value ?? '', 6)) {
+      return 'a senha deve ter pelo menos 6 dígitos';
+    } else if (value != password) {
+      return 'as senhas devem ser iguais';
     }
     return null;
   }
